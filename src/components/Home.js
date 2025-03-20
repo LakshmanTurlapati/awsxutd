@@ -1,6 +1,10 @@
 import React from 'react';
 import './Home.css';
 import logo from '../assets/awsxutd.png';
+import checkmark from '../assets/icons/checkmark.png';
+import click from '../assets/icons/click.png';
+import handshake from '../assets/icons/handshake.png';
+import bannerImage from '../assets/banner.gif';
 
 function Home() {
   return (
@@ -24,8 +28,60 @@ function Home() {
             Join The Club Now!
           </button>
         </div>
-        <div className="hexagon-frame"></div>
+        <div className="hexagon-frame">
+          <img src={bannerImage} alt="Students working together" className="hexagon-image" />
+          <img src={require('../assets/banner-overlay.png')} alt="Overlay" className="hexagon-overlay" />
+        </div>
       </div>
+      
+      <div className="features-section">
+        <div className="feature-item">
+          <h3 className="feature-title">
+            <span className="icon-wrapper">
+              <img src={checkmark} alt="Checkmark icon" className="feature-icon" />
+            </span>
+            Certified Professionals & Mentors
+          </h3>
+          <p className="feature-description">
+            Get guided by peers and faculty with hands-on AWS experience. They'll offer
+            practical advice, share resources, and provide real-world insights.
+          </p>
+        </div>
+        
+        <div className="feature-item">
+          <h3 className="feature-title">
+            <span className="icon-wrapper">
+              <img src={click} alt="Click icon" className="feature-icon" />
+            </span>
+            Hands-On Projects
+          </h3>
+          <p className="feature-description">
+            Dive into hackathons and workshops where you'll build serverless apps,
+            explore AI services, and experiment with AWS tools.
+          </p>
+        </div>
+        
+        <div className="feature-item">
+          <h3 className="feature-title">
+            <span className="icon-wrapper">
+              <img src={handshake} alt="Handshake icon" className="feature-icon" />
+            </span>
+            Peer & Faculty Support
+          </h3>
+          <p className="feature-description">
+            You're never alone in your learning journey. Our community is
+            here to answer questions and celebrate every milestone.
+          </p>
+        </div>
+      </div>
+      
+      <h3 className="bottom-right-heading">
+        Advance your <span className="bold-text">cloud</span> skills through hands‐on <span className="bold-text">workshops</span>, expert <span className="bold-text">mentorship</span>, and a <span className="bold-text">collaborative</span> community
+      </h3>
+      
+      <footer className="footer">
+  © 2025 AWSxUTD Club.&nbsp;&nbsp;&nbsp;&nbsp;All rights reserved.
+</footer>
     </div>
   );
 }
