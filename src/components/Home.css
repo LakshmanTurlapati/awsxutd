@@ -4,6 +4,8 @@
   background-color: white;
   overflow: hidden;
   position: relative;
+  margin: 0;
+  padding: 0;
 }
 
 .banner {
@@ -12,11 +14,130 @@
   width: 100%;
   position: absolute;
   top: 0;
+  margin: 0;
+  padding: 0;
   clip-path: polygon(
     0 0,           /* top-left */
     100% 0,       /* top-right */
     100% 85%,     /* right edge */
     70% 100%,     /* bottom-right point (lowest point) */
     0 85%         /* bottom-left */
+  );
+}
+
+.logo {
+  position: absolute;
+  top: 0;
+  left: 44px;
+  height: 80px;
+  margin: 0;
+  padding: 0;
+  transform: translateY(2px);
+  object-fit: cover;
+  object-position: center top;
+}
+
+.navbar {
+  position: absolute;
+  top: 20px;
+  right: 44px;
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.nav-item {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.nav-item:hover {
+  opacity: 0.8;
+}
+
+.join-button {
+  background-color: white;
+  color: black;
+  border: 2px solid white;
+  border-radius: 16px;
+  padding: 6.4px 16px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.join-button:hover {
+  background-color: transparent;
+  color: white;
+}
+
+.content-block {
+  position: absolute;
+  left: 144px;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 400px;
+  text-align: left;
+}
+
+.banner-heading {
+  color: white;
+  font-size: 24px;
+  font-weight: 600; /* semi-bold */
+  line-height: 1.4;
+  margin-bottom: 20px;
+  max-width: 250px;
+  text-align: left;
+}
+
+.tagline {
+  color: white;
+  font-size: 16px;
+  font-weight: 300; /* light */
+  line-height: 1.5;
+  margin-bottom: 20px;
+  max-width: 350px;
+  text-align: left;
+}
+
+.club-button {
+  background-color: #FE9902;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 10px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 200px;
+  text-align: center;
+}
+
+.club-button:hover {
+  background-color: #e68a00; /* Slightly darker on hover */
+}
+
+.highlight {
+  color: #FE9902;
+}
+
+.hexagon-frame {
+  position: absolute;
+  right: 144px;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  width: 400px; /* Max size */
+  height: 350px; /* 400 * (52.5/50) = 420, but capped at 400px */
+  background-color: white;
+  clip-path: polygon(
+    25% 0%,        /* top-left */
+    75% 0%,        /* top-right */
+    100% 50%,      /* right edge */
+    75% 100%,      /* bottom-right */
+    25% 100%,      /* bottom-left */
+    0% 50%         /* left edge */
   );
 } 
