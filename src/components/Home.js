@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './Home.css';
 import logo from '../assets/awsxutd.png';
 import checkmark from '../assets/icons/checkmark.png';
@@ -7,9 +7,43 @@ import handshake from '../assets/icons/handshake.png';
 import bannerImage from '../assets/banner.gif';
 
 function Home() {
+  const bannerRef = useRef(null);
+
+  useEffect(() => {
+    if (window.VANTA) {
+      const vantaEffect = window.VANTA.DOTS({
+        el: bannerRef.current,
+        mouseControls: false,
+        touchControls: false,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        scale: 1.00,
+        scaleMobile: 1.00,
+        color: 0xffffff,
+        color2: 0xffffff,
+        backgroundColor: 0x232f3e,
+        size: 2,
+        spacing: 30,
+        showLines: false
+      });
+  
+      if (vantaEffect.camera) {
+        vantaEffect.camera.position.set(10, 150, 100);    // Set camera at (10, 150, 100)
+        vantaEffect.camera.lookAt(0, 0, 0);              // Point it at the origin
+        vantaEffect.camera.updateMatrix();               // Update the matrix with this position
+        vantaEffect.camera.matrixAutoUpdate = true;     // Lock the camera
+      }
+  
+      return () => {
+        if (vantaEffect) vantaEffect.destroy();
+      };
+    }
+  }, []);
+
   return (
     <div className="home">
-      <div className="banner">
+      <div className="banner" ref={bannerRef}>
         <img src={logo} alt="AWS Logo" className="logo" />
         <nav className="navbar">
           <a href="#about" className="nav-item">About Us</a>
