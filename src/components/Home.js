@@ -5,6 +5,7 @@ import checkmark from '../assets/icons/checkmark.png';
 import click from '../assets/icons/click.png';
 import handshake from '../assets/icons/handshake.png';
 import bannerImage from '../assets/banner.gif';
+import { Link } from 'react-router-dom';
 
 function Home() {
   const bannerRef = useRef(null);
@@ -46,7 +47,7 @@ function Home() {
       <div className="banner" ref={bannerRef}>
         <img src={logo} alt="AWS Logo" className="logo" />
         <nav className="navbar">
-          <a href="#about" className="nav-item">About Us</a>
+          <Link to="/about" className="nav-item">About Us</Link>
           <a href="#gallery" className="nav-item">Gallery</a>
           <a href="#careers" className="nav-item">Careers</a>
           <a href="#join" className="nav-item join-button">Join Us</a>
