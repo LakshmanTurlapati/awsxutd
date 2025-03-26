@@ -7,6 +7,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-size: 0.875rem;
 }
 
 .about-navbar {
@@ -21,7 +22,7 @@
 .nav-item {
   color: white;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 0.875rem;
   font-weight: 500;
   transition: opacity 0.2s ease;
 }
@@ -40,6 +41,7 @@
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
+  font-size: 0.875rem;
 }
 
 .join-button:hover {
@@ -48,12 +50,12 @@
 }
 
 .about-page h1 {
-  font-size: 2.5rem;
+  font-size: 1.25rem;
   margin: 20px 0;
 }
 
 .about-page p {
-  font-size: 1.2rem;
+  font-size: 0.875rem;
   max-width: 800px;
   text-align: center;
 }
@@ -75,7 +77,107 @@
   bottom: 10px;
   width: 100%;
   text-align: center;
-  font-size: 12px;
-  color: #555;
+  font-size: 0.75rem;
+  font-weight: 100;
+  color: white;
   padding-bottom: 5px;
+}
+
+.vertical-line {
+  height: 300px; /* Length of the line */
+  width: 2px; /* Width of the line */
+  background-color: white; /* Color of the line */
+  border-radius: 1px; /* Rounded edges */
+  position: absolute;
+  top: 100px; /* Adjusted to move up (from 128px) */
+  left: 50%; /* Center the line */
+  transform: translateX(-50%); /* Center the line */
+}
+
+.about-content {
+  position: absolute;
+  top: 80px; /* Adjusted to move up (from 128px) */
+  left: calc(50% + 40px); /* Increased gap from the vertical line (from 20px to 40px) */
+  max-width: 650px; /* Limit the width of the content */
+  padding: 20px;
+  color: white;
+  text-align: left; /* Left-align the paragraphs */
+}
+
+.about-content h2 {
+  font-size: 0.875rem; /* Same size as navbar items */
+  font-weight: 600; /* Bold */
+  margin-bottom: 20px;
+  margin-left: 0; /* Align with the line */
+}
+
+.about-content p {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  text-align: left; /* Left-align the paragraphs */
+}
+
+.advisor-section {
+  position: absolute;
+  top: 100px; /* Align with the vertical line */
+  left: calc(50% - 700px); /* Position to the left of the vertical line */
+  max-width: 650px; /* Limit the width of the section */
+  display: flex;
+  gap: 44px; /* Increased gap between image and paragraph (from 20px to 24px) */
+  align-items: center; /* Vertically center the content */
+}
+
+.advisor-image {
+  width: 200px; /* Frame width */
+  height: 250px; /* Frame height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Ensure the image doesn't overflow the frame */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.3), /* Drop shadow */
+    inset 0 0 8px rgba(0, 0, 0, 0.3); /* Inner shadow */
+}
+
+.advisor-image img {
+  width: 100%; /* Ensure the image fills the frame width */
+  height: 100%; /* Ensure the image fills the frame height */
+  object-fit: cover; /* Ensure the image covers the frame without distortion */
+  border-radius: 18px; /* Rounded corners */
+}
+
+.advisor-info {
+  display: flex;
+  flex-direction: column;
+  font-weight: 100;
+  gap: 10px; /* Space between name and paragraph */
+}
+
+.advisor-name {
+  font-size: 0.875rem; /* Same size as navbar items */
+  font-weight: 600; /* Bold for the name */
+  text-align: center; /* Align text to the left */
+  margin-top: 6px; /* Space between image and name */
+}
+
+.advisor-info p {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  text-align: left; /* Left-align the paragraph */
+}
+
+.our-team-heading {
+  position: absolute;
+  top: 500px; /* Adjust this value to position the heading below the existing content */
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.our-team-heading h2 {
+  font-size: 0.875rem; /* Same size as navbar items */
+  font-weight: 600; /* Bold */
+  margin-bottom: 20px;
 }
