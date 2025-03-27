@@ -1,0 +1,138 @@
+.join-page {
+  background-color: #232F3E;
+  min-height: 100vh;
+  color: white;
+  padding: 20px 40px;
+  position: relative;
+}
+
+.join-navbar {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 20px 0;
+  width: 100%;
+  align-items: center;
+}
+
+.nav-item {
+  color: white;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.nav-item:hover {
+  opacity: 0.8;
+}
+
+.join-content {
+  max-width: 800px;
+  margin: 60px auto 0;
+  text-align: center;
+}
+
+.join-content h2 {
+  font-size: 1.25rem;
+  margin-bottom: 20px;
+}
+
+.join-content p {
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.join-footer {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  left: 0;
+  font-size: 0.75rem;
+  font-weight: 100;
+  color: white;
+  padding-bottom: 5px;
+}
+
+/* Mobile menu styles */
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 20;
+  cursor: pointer;
+}
+
+.mobile-menu-toggle span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: white;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+/* Responsive styles */
+@media (max-width: 767px) {
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  .join-navbar {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 70px;
+    transition: right 0.3s ease;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+    z-index: 15;
+    background-color: #232F3E;
+  }
+  
+  .join-navbar.mobile-open {
+    right: 0;
+  }
+  
+  .join-navbar .nav-item {
+    margin: 15px 0;
+    font-size: 18px;
+  }
+  
+  .join-page {
+    padding: 20px;
+  }
+  
+  .join-content {
+    margin-top: 100px;
+  }
+  
+  .join-footer {
+    position: relative;
+    margin-top: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .join-navbar .nav-item {
+    font-size: 16px;
+    margin: 12px 0;
+  }
+  
+  .join-content h2 {
+    font-size: 18px;
+  }
+  
+  .join-content p {
+    font-size: 14px;
+  }
+} 

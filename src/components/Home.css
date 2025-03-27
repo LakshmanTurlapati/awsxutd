@@ -226,7 +226,7 @@
   font-weight: 700;
 }
 
-.footer {
+.home-footer {
   position: absolute;
   bottom: 10px;
   width: 100%;
@@ -234,4 +234,290 @@
   font-size: 12px;
   color: #555;
   padding-bottom: 5px;
+  z-index: 3;
+  background-color: transparent;
+}
+
+/* Responsive styles */
+@media (max-width: 1400px) {
+  .hexagon-frame {
+    right: 5%;
+  }
+  
+  .bottom-right-heading {
+    right: 10%;
+  }
+}
+
+@media (max-width: 1200px) {
+  .features-section {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+  }
+  
+  .feature-item {
+    margin-bottom: 20px;
+    max-width: 600px;
+  }
+  
+  .hexagon-frame {
+    width: 400px;
+    height: 400px;
+    right: 5%;
+    top: 30vh;
+  }
+  
+  .bottom-right-heading {
+    right: 5%;
+    max-width: 400px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 992px) {
+  .banner-heading {
+    font-size: 28px;
+    max-width: 450px;
+  }
+  
+  .tagline {
+    max-width: 450px;
+  }
+  
+  .hexagon-frame {
+    width: 350px;
+    height: 350px;
+    right: 5%;
+    top: 35vh;
+  }
+  
+  .content-block {
+    max-width: 450px;
+  }
+}
+
+@media (max-width: 767px) {
+  .banner {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  .logo {
+    position: static;
+    margin: 20px auto;
+    transform: none;
+  }
+  
+  .navbar {
+    position: static;
+    margin: 20px auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .content-block {
+    position: static;
+    margin: 30px auto;
+    text-align: center;
+    transform: none;
+  }
+  
+  .hexagon-frame {
+    position: static;
+    margin: 30px auto;
+    width: 90%;
+    max-width: 350px;
+    height: auto;
+    aspect-ratio: 1/1;
+  }
+  
+  .features-section {
+    flex-direction: column;
+    margin-top: 30px;
+    padding: 20px;
+  }
+  
+  .feature-item {
+    margin-bottom: 30px;
+  }
+  
+  .bottom-right-heading {
+    position: static;
+    margin: 30px auto;
+    text-align: center;
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner-heading {
+    font-size: 24px;
+  }
+  
+  .tagline {
+    font-size: 14px;
+  }
+  
+  .navbar {
+    gap: 15px;
+  }
+  
+  .nav-item {
+    font-size: 14px;
+  }
+  
+  .club-button {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+}
+
+/* Mobile menu styles */
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 20;
+  cursor: pointer;
+}
+
+.mobile-menu-toggle span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: white;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 767px) {
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  .navbar {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    height: 100vh;
+    background-color: #232F3E;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 70px;
+    transition: right 0.3s ease;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+    z-index: 15;
+  }
+  
+  .navbar.mobile-open {
+    right: 0;
+  }
+  
+  .navbar .nav-item {
+    margin: 15px 0;
+    font-size: 18px;
+  }
+  
+  .banner {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    padding: 20px;
+    clip-path: none;
+  }
+  
+  .logo {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    height: 40px;
+    transform: none;
+  }
+  
+  .content-block {
+    position: relative;
+    left: 0;
+    top: 80px;
+    margin: 30px auto;
+    text-align: center;
+    transform: none;
+  }
+  
+  .banner-heading, .tagline {
+    text-align: center;
+    max-width: 100%;
+  }
+  
+  .hexagon-frame {
+    position: relative;
+    right: auto;
+    top: 100px;
+    margin: 30px auto;
+    width: 90%;
+    max-width: 300px;
+    height: auto;
+    aspect-ratio: 1/1;
+    transform: none;
+  }
+  
+  .features-section {
+    position: relative;
+    top: 130px;
+    left: 0;
+    flex-direction: column;
+    margin: 30px auto;
+    padding: 20px;
+    max-width: 90%;
+  }
+  
+  .feature-item {
+    margin-bottom: 30px;
+  }
+  
+  .bottom-right-heading {
+    position: relative;
+    right: auto;
+    top: 140px;
+    margin: 30px auto;
+    text-align: center;
+    max-width: 90%;
+  }
+  
+  .home-footer {
+    position: relative;
+    top: 150px;
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner-heading {
+    font-size: 24px;
+  }
+  
+  .tagline {
+    font-size: 14px;
+  }
+  
+  .navbar .nav-item {
+    font-size: 16px;
+    margin: 12px 0;
+  }
+  
+  .club-button {
+    font-size: 14px;
+    padding: 10px 20px;
+    width: 90%;
+    max-width: 200px;
+  }
 } 

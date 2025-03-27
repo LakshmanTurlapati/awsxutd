@@ -66,13 +66,14 @@
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
+  margin-top: 980px; /* Increased from 900px to account for team section moving down */
 }
 
 .about-logo {
   height: 60px;
 }
 
-.footer {
+.about-footer {
   position: absolute;
   bottom: 10px;
   width: 100%;
@@ -139,13 +140,16 @@
   box-shadow: 
     0 4px 8px rgba(0, 0, 0, 0.3), /* Drop shadow */
     inset 0 0 8px rgba(0, 0, 0, 0.3); /* Inner shadow */
+  position: relative; /* Add position relative for absolute positioning of placeholder */
 }
 
 .advisor-image img {
   width: 100%; /* Ensure the image fills the frame width */
   height: 100%; /* Ensure the image fills the frame height */
   object-fit: cover; /* Ensure the image covers the frame without distortion */
-  border-radius: 18px; /* Rounded corners */
+  border-radius: 8px; /* Match container border radius */
+  position: relative; /* Ensure proper stacking */
+  z-index: 1; /* Place above placeholder */
 }
 
 .advisor-info {
@@ -168,16 +172,329 @@
   text-align: left; /* Left-align the paragraph */
 }
 
-.our-team-heading {
+.team-heading {
   position: absolute;
-  top: 500px; /* Adjust this value to position the heading below the existing content */
+  top: 500px; /* Moved down from 420px */
   left: 50%;
   transform: translateX(-50%);
+  width: 100%;
   text-align: center;
 }
 
-.our-team-heading h2 {
+.team-heading h2 {
   font-size: 0.875rem; /* Same size as navbar items */
   font-weight: 600; /* Bold */
   margin-bottom: 20px;
+  color: white;
+}
+
+.team-carousel-container {
+  position: absolute;
+  top: 540px; /* Moved down from 460px */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1400px;
+  margin-bottom: 100px; /* Space for the logo at the bottom */
+  min-height: 300px; /* Ensure enough vertical space */
+}
+
+/* Enhanced responsive styles */
+@media (max-width: 1400px) {
+  .advisor-section {
+    left: calc(50% - 650px);
+  }
+  
+  .about-content {
+    left: calc(50% + 30px);
+    max-width: 600px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .advisor-section {
+    left: calc(50% - 550px);
+  }
+  
+  .about-content {
+    left: calc(50% + 20px);
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 992px) {
+  .advisor-section {
+    left: 20px;
+    max-width: 550px;
+  }
+  
+  .vertical-line {
+    left: 40%;
+  }
+  
+  .about-content {
+    left: calc(40% + 30px);
+    max-width: 55%;
+  }
+}
+
+@media (max-width: 768px) {
+  .advisor-section {
+    position: relative;
+    top: 80px;
+    left: 0;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 90%;
+    gap: 20px;
+  }
+  
+  .about-content {
+    position: relative;
+    top: 100px;
+    left: 0;
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .about-content p {
+    text-align: center;
+  }
+  
+  .vertical-line {
+    display: none;
+  }
+  
+  .team-heading {
+    top: 650px;
+  }
+  
+  .team-carousel-container {
+    top: 690px;
+  }
+  
+  .logo-container {
+    margin-top: 1250px;
+  }
+  
+  .about-footer {
+    font-size: 0.7rem;
+    padding-bottom: 3px;
+  }
+  
+  .about-navbar {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .advisor-section {
+    top: 70px;
+  }
+  
+  .advisor-image {
+    width: 180px;
+    height: 225px;
+  }
+  
+  .about-content {
+    top: 80px;
+  }
+  
+  .about-navbar {
+    gap: 15px;
+  }
+  
+  .nav-item {
+    font-size: 14px;
+  }
+  
+  .join-button {
+    padding: 4px 10px;
+  }
+  
+  .team-heading {
+    top: 620px;
+  }
+  
+  .team-carousel-container {
+    top: 660px;
+  }
+  
+  .logo-container {
+    margin-top: 1200px;
+  }
+}
+
+/* Mobile menu styles */
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 20;
+  cursor: pointer;
+}
+
+.mobile-menu-toggle span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: white;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+/* Enhanced mobile responsiveness */
+@media (max-width: 767px) {
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  .about-navbar {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 70px;
+    transition: right 0.3s ease;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+    z-index: 15;
+    background-color: #232F3E;
+  }
+  
+  .about-navbar.mobile-open {
+    right: 0;
+  }
+  
+  .about-navbar .nav-item {
+    margin: 15px 0;
+    font-size: 18px;
+  }
+  
+  .about-page {
+    padding: 20px;
+    overflow-x: hidden;
+  }
+  
+  .advisor-section {
+    position: relative;
+    top: 60px;
+    left: 0;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 90%;
+    gap: 15px;
+  }
+  
+  .about-content {
+    position: relative;
+    top: 70px;
+    left: 0;
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  .about-content p {
+    text-align: center;
+  }
+  
+  .vertical-line {
+    display: none;
+  }
+  
+  .team-heading {
+    position: relative;
+    top: 80px;
+    margin-top: 30px;
+  }
+  
+  .team-carousel-container {
+    position: relative;
+    top: 90px;
+    margin-top: 20px;
+  }
+  
+  .logo-container {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    margin-top: 40px;
+    margin-bottom: 50px;
+  }
+  
+  .about-footer {
+    position: relative;
+    margin-top: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-navbar .nav-item {
+    font-size: 16px;
+    margin: 12px 0;
+  }
+  
+  .advisor-image {
+    width: 180px;
+    height: 225px;
+  }
+  
+  .advisor-info p {
+    font-size: 14px;
+  }
+  
+  .about-content p {
+    font-size: 14px;
+  }
+}
+
+/* Add these styles at the end of the file */
+
+.image-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 8px;
+  width: 100%;
+  height: 100%;
+  background-color: #34465C;
+}
+
+.image-placeholder::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
 }

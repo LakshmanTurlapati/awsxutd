@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Home.css';
 import logo from '../assets/awsxutd.png';
 import checkmark from '../assets/icons/checkmark.png';
@@ -9,6 +9,11 @@ import { Link } from 'react-router-dom';
 
 function Home() {
   const bannerRef = useRef(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
 
   useEffect(() => {
     if (window.VANTA) {
@@ -46,12 +51,20 @@ function Home() {
     <div className="home">
       <div className="banner" ref={bannerRef}>
         <img src={logo} alt="AWS Logo" className="logo" />
-        <nav className="navbar">
+        
+        <div className="mobile-menu-toggle" onClick={toggleMobileMenu}>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        
+        <nav className={`navbar ${mobileMenuOpen ? 'mobile-open' : ''}`}>
           <Link to="/about" className="nav-item">About Us</Link>
-          <a href="#gallery" className="nav-item">Gallery</a>
-          <a href="#careers" className="nav-item">Careers</a>
-          <a href="#join" className="nav-item join-button">Join Us</a>
+          <Link to="/gallery" className="nav-item">Gallery</Link>
+          <a href="https://docs.google.com/forms/d/1Bv3maleWj92pPe9KJW-FNw7bXGIdbQBJaAYh5-58UvE/viewform?edit_requested=true" className="nav-item" target="_blank" rel="noopener noreferrer">Careers</a>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSdkXRrus4jSACvdmW6HYDAXguP1UdX7_ZZ4OaBSMKVFd_WwNw/viewform" className="nav-item join-button" target="_blank" rel="noopener noreferrer">Join Us</a>
         </nav>
+        
         <div className="content-block">
           <h2 className="banner-heading">
             Join us and get ready to become <span className="highlight">AWS Certified</span>
@@ -59,9 +72,9 @@ function Home() {
           <p className="tagline">
             Learn, Build, and Innovate in the Cloud. Join us for hackathons, workshops, seminars, and more!
           </p>
-          <button className="club-button">
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSdkXRrus4jSACvdmW6HYDAXguP1UdX7_ZZ4OaBSMKVFd_WwNw/viewform" className="club-button" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
             Join The Club Now!
-          </button>
+          </a>
         </div>
         <div className="hexagon-frame">
           <img src={bannerImage} alt="Students working together" className="hexagon-image" />
@@ -114,9 +127,9 @@ function Home() {
         Advance your <span className="bold-text">cloud</span> skills through hands‐on <span className="bold-text">workshops</span>, expert <span className="bold-text">mentorship</span>, and a <span className="bold-text">collaborative</span> community
       </h3>
       
-      <footer className="footer">
-  © 2025 AWSxUTD Club.&nbsp;&nbsp;&nbsp;&nbsp;All rights reserved.
-</footer>
+      <footer className="home-footer">
+        © 2025 AWSxUTD Club.&nbsp;&nbsp;&nbsp;&nbsp;All rights reserved.
+      </footer>
     </div>
   );
 }
