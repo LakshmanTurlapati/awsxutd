@@ -53,7 +53,6 @@ function Gallery() {
         setSelectedImage(null);
       }
     };
-
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
   }, []);
@@ -84,41 +83,49 @@ function Gallery() {
     ];
 
     const loadImageDimensions = async () => {
-      const dimensions = await Promise.all(
-        allImages.map(image => {
-          return new Promise((resolve) => {
-            const img = new Image();
-            img.src = image.src;
-            img.onload = () => {
-              resolve({ width: img.naturalWidth, height: img.naturalHeight });
-            };
-            img.onerror = () => {
-              resolve({ width: 1, height: 1 }); // Fallback if image fails to load
-            };
-          });
-        })
-      );
+      const imagePromises = allImages.map((image) => {
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.decoding = "async";
+          img.onload = () => {
+            resolve({
+              width: img.naturalWidth || 300,
+              height: img.naturalHeight || 200,
+              loaded: true
+            });
+          };
+          img.onerror = () => {
+            resolve({ width: 300, height: 200, loaded: false });
+          };
+          img.crossOrigin = "anonymous";
+          img.src = image.src;
+        });
+      });
 
-      // Shuffle images for random arrangement and add dimensions
-      const imagesWithDimensions = allImages.map((image, index) => ({
-        ...image,
-        width: dimensions[index].width,
-        height: dimensions[index].height,
-        loaded: false
-      })).sort(() => 0.5 - Math.random());
+      try {
+        const dimensions = await Promise.all(imagePromises);
+        const imagesWithDimensions = allImages.map((image, index) => ({
+          ...image,
+          width: dimensions[index].width,
+          height: dimensions[index].height,
+          loaded: false // Start with false, set true on render
+        })).sort(() => 0.5 - Math.random());
 
-      setImages(imagesWithDimensions);
-      setLoading(false);
+        setImages(imagesWithDimensions);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error loading images:", error);
+        setLoading(false);
+      }
     };
 
     loadImageDimensions();
   }, []);
 
-  // Generate placeholder items for the loading state
   const placeholderItems = Array.from({ length: 8 }, (_, index) => ({
     id: `placeholder-${index}`,
     width: 1,
-    height: Math.random() * 0.5 + 0.7 // Random height between 0.7 and 1.2 to create varied aspect ratios
+    height: Math.random() * 0.5 + 0.7
   }));
 
   return (
@@ -142,7 +149,6 @@ function Gallery() {
       <div className="scrollable-container">
         <div className="gallery-flow">
           {loading ? (
-            // Display placeholder items during loading
             placeholderItems.map((item) => (
               <div
                 key={item.id}
@@ -153,7 +159,6 @@ function Gallery() {
               </div>
             ))
           ) : (
-            // Display actual gallery images when loaded
             images.map((image, index) => (
               <div
                 key={index}
@@ -167,17 +172,25 @@ function Gallery() {
                   alt={image.alt}
                   className="gallery-image"
                   loading="lazy"
-                  onLoad={() => {
-                    setImages(prevImages => {
-                      const newImages = [...prevImages];
-                      newImages[index] = { ...newImages[index], loaded: true };
-                      return newImages;
+                  decoding="async"
+                  onLoad={(e) => {
+                    requestAnimationFrame(() => {
+                      setTimeout(() => {
+                        setImages(prevImages => {
+                          const newImages = [...prevImages];
+                          newImages[index] = { ...newImages[index], loaded: true };
+                          return newImages;
+                        });
+                      }, 300);
                     });
                   }}
                   onError={(e) => {
-                    e.target.style.display = 'none'; // Hide broken images
+                    e.target.style.display = 'none';
                   }}
-                  style={{ opacity: image.loaded ? 1 : 0 }}
+                  style={{ 
+                    opacity: image.loaded ? 1 : 0,
+                    transition: 'opacity 0.5s ease-in-out'
+                  }}
                 />
               </div>
             ))
@@ -185,7 +198,6 @@ function Gallery() {
         </div>
       </div>
       
-      {/* Image Popup */}
       {selectedImage && (
         <div className="image-popup-overlay" onClick={handlePopupClick}>
           <div className="image-popup-container">

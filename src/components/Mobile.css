@@ -1,26 +1,91 @@
 .mobile-page {
-  background-color: #232F3E;
-  min-height: 100vh;
+  background-color: #1e232f;
+  min-height: 95vh;
   color: white;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   padding: 20px;
+  position: relative;
 }
 
 .mobile-content {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  margin-top: 10vh;
+  width: 100%;
+  max-width: 500px;
 }
 
 .mobile-content h1 {
   font-size: 1.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   font-weight: 600;
 }
 
 .mobile-content p {
   font-size: 1rem;
   opacity: 0.9;
+  margin-bottom: 2rem;
+}
+
+.video-container {
+  width: 100%;
+  max-width: 300px;
+  margin: 1rem auto 2rem;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.mobile-video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.mobile-join-button {
+  background-color: #FE9902;
+  color: white;
+  border: 2px solid #FE9902;
+  border-radius: 16px;
+  padding: 8px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  text-decoration: none;
+  margin-top: 1rem;
+}
+
+.mobile-join-button:hover {
+  background-color: transparent;
+  color: #FE9902;
+}
+
+.mobile-logo-container {
+  margin-top: auto;
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.mobile-logo {
+  height: 60px;
+  margin: 20px 0;
+}
+
+.mobile-footer {
+  width: 100%;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 100;
+  color: white;
+  padding-bottom: 10px;
 }
 
 @media (max-width: 480px) {
@@ -30,5 +95,33 @@
   
   .mobile-content p {
     font-size: 0.875rem;
+  }
+  
+  .video-container {
+    max-width: 250px;
+  }
+  
+  .mobile-join-button {
+    font-size: 0.9rem;
+    padding: 7px 20px;
+  }
+  
+  .mobile-logo {
+    height: 50px;
+  }
+}
+
+@media (max-height: 700px) {
+  .mobile-content {
+    margin-top: 5vh;
+  }
+  
+  .video-container {
+    max-width: 200px;
+    margin: 0.5rem auto 1rem;
+  }
+  
+  .mobile-logo-container {
+    margin-bottom: 30px;
   }
 }

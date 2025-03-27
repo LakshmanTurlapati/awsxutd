@@ -8,16 +8,20 @@
   padding: 0;
   overflow: hidden;
   cursor: grab;
-  contain: layout style paint;
-  will-change: transform;
-  user-select: none;
-  isolation: isolate;
-  z-index: 10;
   transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  user-select: none;
+  will-change: transform;
+  z-index: 10;
+  touch-action: none;
+  -webkit-touch-callout: none;
   pointer-events: auto;
-  touch-action: pan-x;
 }
 
 .team-carousel:before,
@@ -51,10 +55,16 @@
   gap: 30px;
   width: max-content;
   transform: translate3d(0, 0, 0);
-  transition: transform 0.2s ease !important;
+  -webkit-transform: translate3d(0, 0, 0);
   will-change: transform;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  transition: none !important;
+  -webkit-transition: none !important;
 }
 
 .carousel-button {
@@ -64,12 +74,19 @@
 .officer-card {
   flex: 0 0 200px;
   margin-bottom: 30px;
-  transition: all 0.3s ease;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  -webkit-transition: -webkit-transform 0.3s ease, opacity 0.3s ease;
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   user-select: none;
 }
 
 .officer-card:hover {
-  transform: translateY(-5px);
+  transform: translate3d(0, -5px, 0);
+  -webkit-transform: translate3d(0, -5px, 0);
 }
 
 .officer-image {
@@ -89,15 +106,24 @@
   height: 100%;
   object-fit: cover;
   border-radius: 8px;
-  transition: transform 0.3s ease;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  -webkit-transition: -webkit-transform 0.3s ease, opacity 0.3s ease;
   position: absolute;
   top: 0;
   left: 0;
   z-index: 1;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
 }
 
 .officer-card:hover .officer-image img {
-  transform: scale(1.05);
+  transform: translate3d(0, 0, 0) scale(1.05);
+  -webkit-transform: translate3d(0, 0, 0) scale(1.05);
 }
 
 .officer-info {
@@ -115,8 +141,11 @@
   flex-direction: column;
   justify-content: center;
   z-index: 10;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.5s ease-in-out;
   pointer-events: none;
+  will-change: opacity;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .officer-name {
@@ -223,5 +252,22 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Safari-specific fixes */
+@media not all and (min-resolution:.001dpcm) { 
+  @supports (-webkit-appearance:none) {
+    .carousel-container {
+      /* Safari-only properties */
+      -webkit-filter: blur(0);
+      filter: blur(0);
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+    }
+    
+    .team-carousel {
+      -webkit-mask-image: -webkit-radial-gradient(white, black);
+    }
   }
 } 

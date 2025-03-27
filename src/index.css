@@ -16,3 +16,44 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Safari-specific fixes */
+.safari .gallery-item {
+  transform: none !important;
+  -webkit-transform: none !important;
+  transition: none !important;
+  -webkit-transition: none !important;
+}
+
+.safari .gallery-item:hover {
+  margin-top: -5px;
+  margin-bottom: 21px;
+}
+
+.safari .gallery-image {
+  opacity: 0;
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  -webkit-filter: opacity(100%);
+  filter: opacity(100%);
+}
+
+.safari .gallery-image[style*="opacity: 1"] {
+  opacity: 1;
+}
+
+/* Force GPU rendering in Safari */
+@supports (-webkit-overflow-scrolling: touch) {
+  .gallery-image, 
+  .gallery-item,
+  .image-popup-overlay,
+  .image-popup {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  
+  .gallery-item:hover {
+    -webkit-transform: none !important;
+    transform: none !important;
+  }
+}

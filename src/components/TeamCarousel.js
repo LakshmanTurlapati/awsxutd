@@ -175,7 +175,7 @@ function TeamCarousel() {
     });
     setLoadedImages(initialLoadState);
     
-    // Create image preloaders with forced delay to show shimmer effect
+    // Create image preloaders without artificial delay
     allOfficers.forEach((officer, index) => {
       const img = new Image();
       img.src = officer.image;
@@ -186,7 +186,7 @@ function TeamCarousel() {
             ...prev,
             [index]: true
           }));
-        }, 1000); // 1 second delay to show shimmer effect
+        }, 300); // 300ms delay to show shimmer effect
       };
     });
   }, [allOfficers]);
@@ -205,9 +205,9 @@ function TeamCarousel() {
         const calculatedSectionWidth = contentWidth / 3;
         setSectionWidth(calculatedSectionWidth);
         
-        // Position immediately without any animation
+        // Position immediately without any animation - use translate3d for GPU acceleration
         containerRef.current.style.transition = 'none';
-        containerRef.current.style.transform = `translateX(-${calculatedSectionWidth}px)`;
+        containerRef.current.style.transform = `translate3d(-${calculatedSectionWidth}px, 0, 0)`;
         setAutoScrollPos(calculatedSectionWidth);
         
         // Force reflow to apply initial position
@@ -217,7 +217,8 @@ function TeamCarousel() {
         setTimeout(() => {
           if (containerRef.current) {
             containerRef.current.style.visibility = 'visible';
-            containerRef.current.style.transition = 'transform 1.5s cubic-bezier(0.25, 0.1, 0.25, 1.0)';
+            // Use translate3d for better performance in Safari
+            containerRef.current.style.transition = 'transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1.0)';
             setIsInitialized(true);
           }
         }, 50);
@@ -235,50 +236,75 @@ function TeamCarousel() {
     if (isInitialized) {
       const timer = setTimeout(() => {
         setIsPaused(false);
-        // No need to update scrollSpeed as it's now a ref with fixed value
-      }, 100);
+      }, 500); // Longer delay for Safari to fully render
       
       return () => clearTimeout(timer);
     }
   }, [isInitialized]);
 
+  // Safari-optimized animation system
   useEffect(() => {
-    const autoScroll = () => {
-      if (!containerRef.current || isPaused || !sectionWidth) return;
+    let rafId = null;
+    let lastTimestamp = 0;
+    let velocity = scrollSpeedRef.current;
+    const targetFps = 60;
+    const frameTime = 1000 / targetFps;
+    
+    const smoothScroll = (timestamp) => {
+      if (!containerRef.current || isPaused || !sectionWidth) {
+        rafId = requestAnimationFrame(smoothScroll);
+        return;
+      }
       
+      // Calculate delta time with a cap to prevent jumps
+      const delta = lastTimestamp ? Math.min(timestamp - lastTimestamp, 100) : 16;
+      lastTimestamp = timestamp;
+      
+      // Smoother movement with time-based animation
       const container = containerRef.current;
       const maxScroll = sectionWidth * 2;
       
-      setAutoScrollPos(prevPos => {
-        let newPos = prevPos + scrollSpeedRef.current; // Use ref instead of state
-        
-        if (newPos >= maxScroll - 50) { // Add 50px buffer
-          // Smoother reset with better timing
-          requestAnimationFrame(() => {
-            // Disable transition during the reset
-            container.style.transition = 'none';
-            container.style.transform = `translateX(-${sectionWidth}px)`;
-            
-            // Force reflow to ensure the transition is disabled
-            void container.offsetHeight;
-            
-            // Re-enable transition with optimized timing
-            setTimeout(() => {
-              container.style.transition = 'transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1.0)';
-            }, 20); // Shorter delay for more responsive behavior
-          });
-          return sectionWidth; // Reset to exact position without adding speed
-        }
-        
-        return newPos;
-      });
+      // Calculate frame-rate independent movement
+      const distance = (velocity * delta) / frameTime;
+      let newPos = autoScrollPos + distance;
       
-      container.style.transform = `translateX(${-autoScrollPos}px)`;
+      // Handle loop with special care for Safari
+      if (newPos >= maxScroll - 10) { // Add buffer zone for smoother looping
+        // Reset to first section without animation
+        newPos = sectionWidth;
+        container.style.transition = 'none';
+        container.style.transform = `translate3d(-${newPos}px, 0, 0)`;
+        
+        // Force reflow to apply the instant position change
+        void container.offsetHeight;
+        
+        // Restore transition for next movement - use shorter duration for Safari
+        setTimeout(() => {
+          if (container) {
+            container.style.transition = 'transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1.0)';
+          }
+        }, 5); // Very short timeout to ensure the change is applied
+        
+        setAutoScrollPos(newPos);
+        rafId = requestAnimationFrame(smoothScroll);
+        return;
+      }
+      
+      // Apply the transform using translate3d for GPU acceleration
+      container.style.transform = `translate3d(-${newPos}px, 0, 0)`;
+      setAutoScrollPos(newPos);
+      
+      rafId = requestAnimationFrame(smoothScroll);
     };
     
-    const scrollInterval = setInterval(autoScroll, 16);
-    return () => clearInterval(scrollInterval);
-  }, [autoScrollPos, isPaused, sectionWidth]);
+    rafId = requestAnimationFrame(smoothScroll);
+    
+    return () => {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+    };
+  }, [isPaused, sectionWidth, autoScrollPos, isInitialized]);
   
   // Mouse event handlers for manual control
   const handleMouseDown = (e) => {
@@ -287,6 +313,11 @@ function TeamCarousel() {
     setStartX(e.pageX - carouselRef.current.offsetLeft);
     setScrollLeft(autoScrollPos);
     carouselRef.current.style.cursor = 'grabbing';
+    
+    // Immediately stop any transitions for instant response
+    if (containerRef.current) {
+      containerRef.current.style.transition = 'none';
+    }
   };
   
   const handleMouseMove = (e) => {
@@ -294,21 +325,28 @@ function TeamCarousel() {
     e.preventDefault();
     
     const x = e.pageX - carouselRef.current.offsetLeft;
-    const walk = (x - startX) * 1.5; // Reduced sensitivity
-    const newPos = scrollLeft - walk;
+    const walk = (x - startX);
     
-    // Use requestAnimationFrame for smoother updates
-    requestAnimationFrame(() => {
-      const boundedPos = Math.max(sectionWidth, Math.min(newPos, sectionWidth * 2));
+    // Use translate3d for GPU acceleration in Safari
+    if (containerRef.current) {
+      const newPos = scrollLeft - walk;
+      // Prevent going outside bounds
+      const boundedPos = Math.max(sectionWidth * 0.5, Math.min(newPos, sectionWidth * 2.5));
       setAutoScrollPos(boundedPos);
-      containerRef.current.style.transform = `translateX(${-boundedPos}px)`;
-    });
+      containerRef.current.style.transform = `translate3d(-${boundedPos}px, 0, 0)`;
+    }
   };
   
   const handleMouseUp = () => {
     setIsDragging(false);
     carouselRef.current.style.cursor = 'grab';
-    // Resume auto-scrolling after short delay
+    
+    // Restore transition for smooth movement
+    if (containerRef.current) {
+      containerRef.current.style.transition = 'transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1.0)';
+    }
+    
+    // Resume auto-scrolling after delay
     setTimeout(() => setIsPaused(false), 1000);
   };
   
@@ -458,7 +496,7 @@ function TeamCarousel() {
               />
               <div className="officer-info" style={{ 
                 opacity: loadedImages[index] ? 1 : 0,
-                animation: loadedImages[index] ? 'fadeIn 0.5s ease-in-out' : 'none'
+                transition: 'opacity 0.5s ease-in-out'
               }}>
                 <div className="officer-name">{officer.name}</div>
                 <div className="officer-role">{officer.role}</div>
